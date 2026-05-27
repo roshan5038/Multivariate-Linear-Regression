@@ -6,40 +6,75 @@ To write a python program to implement multivariate linear regression and predic
 2.	Anaconda – Python 3.7 Installation / Moodle-Code Runner
 ## Algorithm:
 ### Step1
-import pandas as pd.
+Import required libraries and load the dataset.
 
 ### Step2
-Read the csv file.
+Define the feature matrix � and target vector �.
 
 ### Step3
-Get the value of X and y variables.
+Split the dataset into training and testing sets.
 
 ### Step4
-Create the linear regression model and fit.
+Create a Linear Regression model and train it using training data.
 
 ### Step5
-Predict the CO2 emission of a car where the weight is 2300kg, and the volume is 1300cm cube.
-### Step6
-Print the predicted output.
-
+Predict outputs, evaluate the model, and plot the residual errors.
 ## Program:
-```
-import pandas as pd
-from sklearn import linear_model
-df = pd.read_csv("carsemission.csv")
-X = df[['Weight', 'Volume']]
-y = df['CO2']
-regr = linear_model.LinearRegression()
-regr.fit(X, y)
-print('Coefficients:', regr.coef_)
-print('Intercept:',regr.intercept_)
-predictedCO2 = regr.predict([[3300, 1300]])
-print('Predicted CO2 for the corresponding weight and volume',predictedCO2)
+```py
+# Multivariate Linear Regression using scikit-learn (Updated)
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_california_housing
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+
+# Load dataset
+data = fetch_california_housing()
+X = data.data        # multiple independent variables
+y = data.target      # dependent variable
+
+# Split into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.4, random_state=1
+)
+
+# Create model
+model = LinearRegression()
+
+# Train model
+model.fit(X_train, y_train)
+
+# Predict
+y_pred = model.predict(X_test)
+
+# Output coefficients
+print("Regression Coefficients:")
+print(model.coef_)
+print("Intercept:", model.intercept_)
+
+# R2 score
+print("R2 Score:", r2_score(y_test, y_pred))
+
+# Residual plot
+plt.scatter(y_pred, y_pred - y_test, color="blue", s=10, label="Test data")
+plt.scatter(model.predict(X_train),
+            model.predict(X_train) - y_train,
+            color="green", s=10, label="Train data")
+
+plt.hlines(y=0, xmin=min(y_pred), xmax=max(y_pred), linewidth=2)
+plt.xlabel("Predicted values")
+plt.ylabel("Residuals")
+plt.title("Residual Errors")
+plt.legend()
+plt.show()
+
+
 ```
 ## Output:
-### Insert your output
+<img width="793" height="605" alt="Screenshot 2025-12-27 132248" src="https://github.com/user-attachments/assets/bd9178ad-b4e4-4213-b47a-a9b430cda755" />
 
-![image](https://github.com/user-attachments/assets/d077b320-9645-4292-bb91-455905bdb343)
 
 ## Result
 Thus the multivariate linear regression is implemented and predicted the output using python program.
